@@ -70,7 +70,7 @@ public class RedisDistributeLockTemplateTest {
         ArrayList<Future<Object>> futureList = new ArrayList<>();
         ExecutorService threadPool = Executors.newCachedThreadPool();
         RedisDistributeLockTemplate lockTemplate = new RedisDistributeLockTemplate(jedisPool);
-        Callable<Object> callable = () -> lockTemplate.execute("dingyang-test-40", 4, TimeUnit.SECONDS, new Callback() {
+        Callable<Object> callable = () -> lockTemplate.execute("dingyang-test-4444", 4, TimeUnit.SECONDS, new Callback() {
             @Override
             public Object onGetLock() {
                 System.out.println(Thread.currentThread().getName() + "get lock success");
@@ -105,5 +105,15 @@ public class RedisDistributeLockTemplateTest {
     public void test_timeunit() {
         long millis = TimeUnit.SECONDS.toMillis(1);
         assert millis == 1000;
+    }
+
+
+    @Test
+    public void test_jedis_name(){
+        JedisPool jedisPool = new JedisPool("47.96.86.132", 6379);
+        Jedis jedis = jedisPool.getResource();
+        jedis.clientSetname("jedis-1");
+        jedis.close();
+        System.out.println(jedis.clientGetname());
     }
 }

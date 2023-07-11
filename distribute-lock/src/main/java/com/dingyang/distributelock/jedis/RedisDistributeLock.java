@@ -7,8 +7,8 @@ import redis.clients.jedis.JedisPool;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -53,7 +53,7 @@ public class RedisDistributeLock implements DistributeLock {
     public String tryLock(String lockKey, int time, TimeUnit timeUnit) {
 
         try (Jedis jedis = jedisPool.getResource()) {
-            String lockValue = lockKey + Character.forDigit(ThreadLocalRandom.current().nextInt(10), 10);
+            String lockValue = System.currentTimeMillis() + "-" + new Random().nextInt(100000);
             long result = 0, startTime = System.currentTimeMillis();
             List<String> luaKeys = new ArrayList<>();
             luaKeys.add(lockKey);
