@@ -23,7 +23,10 @@ public class RedisDistributeLock implements DistributeLock {
 
     public static final String LUA_LOCK_SCRIPT = "local r=tonumber(redis.call('SETNX',KEYS[1],ARGV[1]))\n" + "redis.call('EXPIRE',KEYS[1],ARGV[2])\n" + "return r";
 
-    public static final String LUA_UNLOCK_SCRIPT = "local v=redis.call('GET',KEYS[1])\n" + "local r= 0\n" + "if v == ARGV[1] then\n" + "r = redis.call('DEL',KEYS[1])\n" + "end\n" + "return r";
+    public static final String LUA_UNLOCK_SCRIPT = "if redis.call('GET',KEYS[1]) == ARGV[1] then\n" +
+            "return redis.call('DEL',KEYS[1])\n" +
+            "end\n" +
+            "return 0";
 
     private final JedisPool jedisPool;
 
