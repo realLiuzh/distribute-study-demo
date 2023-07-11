@@ -13,6 +13,8 @@
         <org.projectlombok.version>1.18.18</org.projectlombok.version>
         <jedis.version>2.7.2</jedis.version>
         <junit.version>4.13.2</junit.version>
+        <redisson.version>3.22.1</redisson.version>
+        <logback.version>1.2.9</logback.version>
     </properties>
 
     <dependencies>
@@ -21,6 +23,11 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
             <version>${jedis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
         </dependency>
         <!--redis dependency end-->
 
@@ -32,12 +39,39 @@
         </dependency>
         <!--util dependency end-->
 
+        <!--test dependency start-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!--test dependency end-->
+
+        <!--log dependency start-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <!--log dependency end-->
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
