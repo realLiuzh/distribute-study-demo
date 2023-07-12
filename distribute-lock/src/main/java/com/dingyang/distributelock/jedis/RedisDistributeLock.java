@@ -34,6 +34,17 @@ public class RedisDistributeLock implements DistributeLock {
         this.jedisPool = jedisPool;
     }
 
+    /**
+     * 这里可重入锁的实现有一个缺点，就是重入加锁后锁的过期时间不会更新
+     * Redisson的方案是使用redis的数据结构(hash)来实现可重入：
+     * lock-key:{
+     *     lock-value:lock-times
+     * }
+     * eg:
+     * dingyang-lock-key:{
+     *     dingyang-lock-value:1
+     * }
+     */
     public boolean lock(String lockKey, int time, TimeUnit timeUnit) {
         LockData lockData = THREAD_LOCK_DATA.get(Thread.currentThread());
         if (lockData != null) {
